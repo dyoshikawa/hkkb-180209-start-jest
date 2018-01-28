@@ -13,14 +13,19 @@ RUN sed -i 's/user\ \ nginx\;/user\ \ 1000\;/g' /etc/nginx/nginx.conf \
 ADD server.conf /etc/nginx/conf.d/default.conf
 
 # setup pre-workdir
-RUN mkdir -p /var/www/vuejs-pre/{src, dist} \
- && mkdir /var/www/vuejs-pre/src/{js, scss}
-WORKDIR /var/www/vuejs-pre
+RUN mkdir -p /var/www/jsapp-pre/src \
+ && mkdir /var/www/jsapp-pre/src/js \
+ && mkdir /var/www/jsapp-pre/src/scss
+WORKDIR /var/www/jsapp-pre
 
+# add files
 ADD package.json package.json
 ADD .babelrc .babelrc
 ADD webpack.config.js webpack.config.js
 ADD index.html index.html
+ADD main.js ./src/js/main.js
+ADD sum.js ./src/js/sum.js
+ADD sum.test.js ./src/js/sum.test.js
 ADD style.scss ./src/scss/style.scss
 
 # install node-modules
@@ -29,12 +34,12 @@ RUN npm install --save-dev webpack babel-cli babel-preset-env babel-loader node-
  && npm install --save bootstrap jquery popper.js \
  && npm run build
 
-# set workdir
-RUN mkdir /var/www/vuejs
-WORKDIR /var/www/vuejs
+# setup workdir
+RUN mkdir /var/www/jsapp
+WORKDIR /var/www/jsapp
 
 # setup entrypoint
-ADD vuejs-entrypoint.sh /vuejs-entrypoint.sh
-RUN chmod 777 /vuejs-entrypoint.sh
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 777 /docker-entrypoint.sh
 USER node
-ENTRYPOINT ["bash", "/vuejs-entrypoint.sh"]
+ENTRYPOINT ["bash", "/docker-entrypoint.sh"]

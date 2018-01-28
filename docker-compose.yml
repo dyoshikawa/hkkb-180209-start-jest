@@ -1,10 +1,10 @@
 version: '3'
 services:
-  vuejs:
+  jsapp:
     build:
-      context: ./vuejs
-    container_name: vuejs
+      context: ./jsapp
+    container_name: jsapp
     volumes:
-      - ./volumes/jsapp/var-www-vuejs:/var/www/vuejs
+      - ./volumes/jsapp/var-www-jsapp:/var/www/jsapp
     ports:
       - "8000:80"
