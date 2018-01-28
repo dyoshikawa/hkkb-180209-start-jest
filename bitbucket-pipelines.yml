@@ -6,4 +6,7 @@ pipelines:
         caches:
           - node
         script:
+          - cd volumes/var-www-jsapp
+          - npm install
+          - npm build
           - npm test
