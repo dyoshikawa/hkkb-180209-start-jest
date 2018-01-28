@@ -1,4 +1,4 @@
-image: node:alpine
+image: americandog1993/hkkb-start-jest
 
 pipelines:
   default:
@@ -6,5 +6,4 @@ pipelines:
         caches:
           - node
         script:
-          - npm install
           - npm test
