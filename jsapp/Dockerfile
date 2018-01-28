@@ -12,12 +12,21 @@ RUN sed -i 's/user\ \ nginx\;/user\ \ 1000\;/g' /etc/nginx/nginx.conf \
  && mkdir /run/nginx
 ADD server.conf /etc/nginx/conf.d/default.conf
 
-# set pre-workdir
-ADD vuejs-pre /var/www/vuejs-pre
+# setup pre-workdir
+RUN mkdir -p /var/www/vuejs-pre/{src, dist} \
+ && mkdir /var/www/vuejs-pre/src/{js, scss}
 WORKDIR /var/www/vuejs-pre
 
+ADD package.json package.json
+ADD .babelrc .babelrc
+ADD webpack.config.js webpack.config.js
+ADD index.html index.html
+ADD style.scss ./src/scss/style.scss
+
 # install node-modules
-RUN npm install \
+RUN npm install --save-dev webpack babel-cli babel-preset-env babel-loader node-sass \
+                           jest babel-jest regenerator-runtime \
+ && npm install --save bootstrap jquery popper.js \
  && npm run build
 
 # set workdir
