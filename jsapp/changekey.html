@@ -1,0 +1,100 @@
+<div id="inputArea">
+    <div class="form-group">
+        <label>コード譜入力欄</label>
+        <textarea class="form-control" rows="3" v-model="text"></textarea>
+    </div>
+</div>
+
+<div id="changeChordButton">
+    <button class="btn btn-danger" @click="upChord">半音上</button>
+    <br>
+    <button class="btn btn-primary" @click="downChord">半音下</button>
+    <br>
+</div>
+
+<script>
+  var inputArea = new Vue({
+    el: '#inputArea',
+    data: {
+      text: 'C'
+    }
+  })
+
+  var changeChordButton = new Vue({
+    el: '#changeChordButton',
+    data: {},
+    methods: {
+      upChord: function () {
+        var chords = ['C#', 'Db', 'D#', 'Eb', 'F#', 'Gb', 'G#', 'Ab', 'A#', 'Bb', 'C', 'D', 'E', 'F', 'G', 'A', 'B']
+        var result = inputArea.text
+        // 半音上げて小文字に
+        for (i in chords) {
+          var afterChord = ''
+          switch (chords[i]) {
+            case 'C#':
+              afterChord = 'd'
+              break
+            case 'Db':
+              afterChord = 'd'
+              break
+            case 'D#':
+              afterChord = 'e'
+              break
+            case 'Eb':
+              afterChord = 'e'
+              break
+            case 'F#':
+              afterChord = 'f'
+              break
+            case 'Gb':
+              afterChord = 'f'
+              break
+            case 'G#':
+              afterChord = 'g'
+              break
+            case 'Ab':
+              afterChord = 'g'
+              break
+            case 'A#':
+              afterChord = 'a'
+              break
+            case 'Bb':
+              afterChord = 'a'
+              break
+            case 'C':
+              afterChord = 'b'
+              break
+            case 'D':
+              afterChord = 'c#'
+              break
+            case 'E':
+              afterChord = 'd#'
+              break
+            case 'F':
+              afterChord = 'e'
+              break
+            case 'G':
+              afterChord = 'f#'
+              break
+            case 'A':
+              afterChord = 'g#'
+              break
+            case 'B':
+              afterChord = 'a#'
+              break
+          }
+          result = result.replace(new RegExp(chords[i], 'g'), afterChord)
+        }
+        var lowerCaseChords = []
+        for (i in chords) {
+          lowerCaseChord = chords[i].toLowerCase()
+          lowerCaseChords.push(lowerCaseChord)
+        }
+        for (i in lowerCaseChords) {
+          result = result.replace(new RegExp(lowerCaseChords[i], 'g'), chords[i])
+        }
+        inputArea.text = result
+      }
+    }
+  })
+</script>
